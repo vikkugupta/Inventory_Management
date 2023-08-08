@@ -1,0 +1,81 @@
+
+
+**Project Title: Inventory Management System**
+
+**Project Description:**
+Develop an Inventory Management System for a fictional retail company. The system will allow the company to manage its products, suppliers, and orders efficiently.
+
+**Project Goals:**
+1. Create a normalized relational database schema.
+2. Implement SQL queries for various inventory management operations.
+3. Develop a user-friendly interface to interact with the database.
+
+**Database Schema:**
+- Tables: `Products`, `Suppliers`, `Orders`, `Customers`, `OrderItems`
+
+**Functionality:**
+1. Add new products to the inventory.
+2. Update product information (name, price, quantity, etc.).
+3. Record supplier details and associate them with products.
+4. Place customer orders and track order history.
+5. Generate reports on product inventory, supplier performance, and order history.
+
+**Sample SQL Queries:**
+1. Retrieve a list of products that need to be restocked (quantity < threshold).
+```sql
+SELECT product_name, quantity
+FROM Products
+WHERE quantity < restock_threshold;
+```
+
+2. Calculate the total revenue generated from completed orders.
+```sql
+SELECT SUM(total_amount) AS total_revenue
+FROM Orders
+WHERE status = 'completed';
+```
+
+3. List the top 5 best-selling products.
+```sql
+SELECT p.product_name, SUM(oi.quantity) AS total_sold
+FROM Products p
+JOIN OrderItems oi ON p.product_id = oi.product_id
+GROUP BY p.product_id
+ORDER BY total_sold DESC
+LIMIT 5;
+```
+
+**User Interface:**
+You can create a simple command-line interface or a basic web interface using HTML,
+CSS, and a back-end language (e.g., Python, PHP) to interact with the database.
+Users should be able to perform CRUD operations on products, suppliers, orders, and customers.
+
+**Source Code:**
+Below is a simplified example of how you might structure the SQL queries for the project.
+Please note that this is a basic representation and may require adaptation based on your preferred programming language and database system.
+
+```python
+import sqlite3
+
+# Connect to the database
+conn = sqlite3.connect('inventory.db')
+cursor = conn.cursor()
+
+# Sample query: Retrieve a list of products that need restocking
+def get_products_to_restock():
+    cursor.execute("SELECT product_name, quantity FROM Products WHERE quantity < restock_threshold;")
+    restock_products = cursor.fetchall()
+    return restock_products
+
+# Sample query: Calculate total revenue from completed orders
+def calculate_total_revenue():
+    cursor.execute("SELECT SUM(total_amount) FROM Orders WHERE status = 'completed';")
+    total_revenue = cursor.fetchone()[0]
+    return total_revenue
+
+# Remember to close the connection when done
+conn.close()
+```
+
+**Note:** Remember to adjust the project scope and complexity based on your skill level and the requirements of the internship.
+Be prepared to discuss the project in detail during interviews and highlight the specific SQL skills you've demonstrated through this project.
