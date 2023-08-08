@@ -1,0 +1,91 @@
+
+**Project Title: Library Management System**
+
+**Project Description:**
+Create a database system to manage a library's book inventory, member information, and borrowing records.
+
+**Project Features:**
+1. Book Management: Store information about books including title, author, genre, and availability status.
+
+2. Member Management: Maintain member details such as name, contact information, and membership status.
+
+3. Borrowing Records: Track borrowing transactions with details like book ID, member ID, borrow date, and return date.
+
+**Database Schema:**
+
+1. **Books Table:**
+   - book_id (Primary Key)
+   - title
+   - author
+   - genre
+   - is_available (Boolean)
+
+2. **Members Table:**
+   - member_id (Primary Key)
+   - first_name
+   - last_name
+   - email
+   - phone
+   - is_member (Boolean)
+
+3. **Borrowing Table:**
+   - borrowing_id (Primary Key)
+   - book_id (Foreign Key referencing Books Table)
+   - member_id (Foreign Key referencing Members Table)
+   - borrow_date
+   - return_date
+
+**SQL Source Code:**
+
+```sql
+-- Create Books Table
+CREATE TABLE Books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    genre VARCHAR(50),
+    is_available BOOLEAN
+);
+
+-- Create Members Table
+CREATE TABLE Members (
+    member_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    is_member BOOLEAN
+);
+
+-- Create Borrowing Table
+CREATE TABLE Borrowing (
+    borrowing_id INT PRIMARY KEY,
+    book_id INT,
+    member_id INT,
+    borrow_date DATE,
+    return_date DATE,
+    FOREIGN KEY (book_id) REFERENCES Books(book_id),
+    FOREIGN KEY (member_id) REFERENCES Members(member_id)
+);
+```
+
+**Sample SQL Queries:**
+
+1. Retrieve all available books:
+```sql
+SELECT * FROM Books WHERE is_available = true;
+```
+
+2. List members who have borrowed books:
+```sql
+SELECT Members.first_name, Members.last_name, Books.title, Borrowing.borrow_date, Borrowing.return_date
+FROM Members
+JOIN Borrowing ON Members.member_id = Borrowing.member_id
+JOIN Books ON Borrowing.book_id = Books.book_id;
+```
+
+3. Update book availability after a return:
+```sql
+UPDATE Books SET is_available = true WHERE book_id = ?;
+```
+
